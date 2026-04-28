@@ -62,6 +62,7 @@ def callback_restart(call):
     send_magic_steps(call.message.chat.id)
 
 @bot.message_handler(func=lambda message: True)
+@bot.message_handler(func=lambda message: True)
 def handle_answer(message):
     chat_id = message.chat.id
     if chat_id not in user_data:
@@ -73,24 +74,33 @@ def handle_answer(message):
         data = user_data[chat_id]
         original = (res - data['s']) / data['c']
         
+        # Отправляем ПЕРВОЕ сообщение, которое будем менять
         msg = bot.send_message(chat_id, "🌀 *Считываю твою ауру...*", parse_mode="Markdown")
-        time.sleep(1.2)
+        time.sleep(1.5)
+        
+        # Меняем текст в том же самом сообщении
+        bot.edit_message_text("🌀 *Настраиваюсь на твои мысли...*", chat_id, msg.message_id, parse_mode="Markdown")
+        time.sleep(1.5)
+        
+        bot.edit_message_text("🌀 *Вижу образы чисел в твоей голове...*", chat_id, msg.message_id, parse_mode="Markdown")
+        time.sleep(1.5)
         
         final_text = (
             f"🎯 **ГОТОВО!**\n\n"
             f"Ты загадал число: 🔥 **{int(round(original))}** 🔥\n\n"
             f"Хочешь проверить меня снова?"
         )
-        # Отправляем результат вместе с кнопкой
+        
+        # Финальное изменение того же сообщения с добавлением кнопки
         bot.edit_message_text(final_text, chat_id, msg.message_id, 
                               parse_mode="Markdown", 
                               reply_markup=get_magic_markup())
         
         del user_data[chat_id]
         
-    except Exception:
+    except Exception as e:
         bot.send_message(chat_id, "🎭 Магия любит точность! Пришли число цифрами.")
-
+        
 class handler(BaseHTTPRequestHandler):
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
