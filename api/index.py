@@ -1,35 +1,29 @@
-from http.server import BaseHTTPRequestHandler
+import os
 import telebot
-import random
+from http.server import BaseHTTPRequestHandler
 
-TOKEN = '8708041665:AAEwbW52DA-zIiarX4eGWesDsxp5hOypjh4'
+# Вставь свой токен прямо сюда между кавычек для теста
+TOKEN = 'ТВОЙ_ТОКЕН_ТУТ'
 bot = telebot.TeleBot(TOKEN, threaded=False)
 
-# Временная память (в бесплатном Vercel она сбрасывается, 
-# для фокуса в один шаг это ок)
+# Функция для обработки сообщений Telegram
 @bot.message_handler(commands=['start'])
 def start(message):
-    m = random.randint(2, 5)
-    s = random.randint(1, 20)
-    # Мы можем зашифровать ответ в самой инструкции, 
-    # чтобы боту не нужно было ничего запоминать!
-    msg = (f"🎩 Магия!\n1. Загадай число.\n2. Умножь на {m}.\n"
-           f"3. Прибавь {s}.\n4. Умножь на 2.\n"
-           f"Напиши итог!")
-    bot.send_message(message.chat.id, msg)
+    bot.reply_to(message, "🎩 Привет! Я твой бот-фокусник. Скоро я буду угадывать твои числа!")
 
-@bot.message_handler(func=lambda m: True)
-def answer(message):
-    try:
-        res = float(message.text)
-        # Здесь должна быть формула обратного счета
-        bot.send_message(message.chat.id, "🔮 Ты загадал число...")
-    except:
-        bot.send_message(message.chat.id, "Напиши число цифрами!")
+@bot.message_handler(func=lambda message: True)
+def echo_all(message):
+    bot.reply_to(message, f"Ты написал: {message.text}. Пока я просто повторяю за тобой, но скоро научусь магии!")
 
+# Главный обработчик для Vercel
 class handler(BaseHTTPRequestHandler):
-    def doPost(self):
-        # Этот блок нужен Vercel, чтобы принять сообщение от Telegram
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html; charset=utf-8')
+        self.end_headers()
+        self.wfile.write("<h1>Бот запущен и готов к работе!</h1>".encode('utf-8'))
+
+    def do_POST(self):
         content_length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(content_length)
         update = telebot.types.Update.de_json(post_data.decode('utf-8'))
