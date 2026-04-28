@@ -74,24 +74,27 @@ def handle_answer(message):
         data = user_data[chat_id]
         original = (res - data['s']) / data['c']
         
-        # Отправляем ПЕРВОЕ сообщение, которое будем менять
+        # Отправляем ПЕРВОЕ сообщение
         msg = bot.send_message(chat_id, "🌀 *Считываю твою ауру...*", parse_mode="Markdown")
-        time.sleep(1.5)
+        bot.send_chat_action(chat_id, 'typing')
+        time.sleep(2.5) # Увеличили паузу
         
-        # Меняем текст в том же самом сообщении
-        bot.edit_message_text("🌀 *Настраиваюсь на твои мысли...*", chat_id, msg.message_id, parse_mode="Markdown")
-        time.sleep(1.5)
+        # Меняем текст
+        bot.edit_message_text("🔮 *Настраиваюсь на твои мысли...*", chat_id, msg.message_id, parse_mode="Markdown")
+        bot.send_chat_action(chat_id, 'typing')
+        time.sleep(2.5)
         
-        bot.edit_message_text("🌀 *Вижу образы чисел в твоей голове...*", chat_id, msg.message_id, parse_mode="Markdown")
-        time.sleep(1.5)
+        bot.edit_message_text("👁‍🗨 *Вижу образы чисел в твоей голове...*", chat_id, msg.message_id, parse_mode="Markdown")
+        bot.send_chat_action(chat_id, 'typing')
+        time.sleep(2.5)
         
+        # Финальный результат
         final_text = (
             f"🎯 **ГОТОВО!**\n\n"
-            f"Ты загадал число: 🔥 **{int(round(original))}** 🔥\n\n"
+            f"Магия говорит, что ты загадал: 🔥 **{int(round(original))}** 🔥\n\n"
             f"Хочешь проверить меня снова?"
         )
         
-        # Финальное изменение того же сообщения с добавлением кнопки
         bot.edit_message_text(final_text, chat_id, msg.message_id, 
                               parse_mode="Markdown", 
                               reply_markup=get_magic_markup())
