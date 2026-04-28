@@ -3,7 +3,7 @@ import telebot
 from http.server import BaseHTTPRequestHandler
 
 # Вставь свой токен прямо сюда между кавычек для теста
-TOKEN = 'ТВОЙ_ТОКЕН_ТУТ'
+TOKEN = '8708041665:AAEwbW52DA-zIiarX4eGWesDsxp5hOypjh4'
 bot = telebot.TeleBot(TOKEN, threaded=False)
 
 # Функция для обработки сообщений Telegram
