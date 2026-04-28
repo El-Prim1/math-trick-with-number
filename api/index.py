@@ -2,7 +2,7 @@ from http.server import BaseHTTPRequestHandler
 import telebot
 import random
 
-TOKEN = 'ВАШ_ТОКЕН'
+TOKEN = '8708041665:AAEwbW52DA-zIiarX4eGWesDsxp5hOypjh4'
 bot = telebot.TeleBot(TOKEN, threaded=False)
 
 # Временная память (в бесплатном Vercel она сбрасывается, 
