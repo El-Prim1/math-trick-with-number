@@ -1,8 +1,5 @@
 {
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/api/webhook.py"
-    }
+    { "source": "/(.*)", "destination": "/api/index.py" }
   ]
 }
