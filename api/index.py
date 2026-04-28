@@ -1,11 +1,12 @@
+import os
 import telebot
 import random
 import time
 from telebot import types
 from http.server import BaseHTTPRequestHandler
 
-# Твой токен
-TOKEN = '8708041665:AAEwbW52DA-zIiarX4eGWesDsxp5hOypjh4'
+# Теперь бот берет токен из настроек Vercel
+TOKEN = os.environ.get('TELEGRAM_TOKEN')
 bot = telebot.TeleBot(TOKEN, threaded=False)
 
 user_data = {}
