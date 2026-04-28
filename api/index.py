@@ -77,16 +77,16 @@ def handle_answer(message):
         # Отправляем ПЕРВОЕ сообщение
         msg = bot.send_message(chat_id, "🌀 *Считываю твою ауру...*", parse_mode="Markdown")
         bot.send_chat_action(chat_id, 'typing')
-        time.sleep(2.5) # Увеличили паузу
+        time.sleep(1.5) # Увеличили паузу
         
         # Меняем текст
         bot.edit_message_text("🔮 *Настраиваюсь на твои мысли...*", chat_id, msg.message_id, parse_mode="Markdown")
         bot.send_chat_action(chat_id, 'typing')
-        time.sleep(2.5)
+        time.sleep(1.5)
         
         bot.edit_message_text("👁‍🗨 *Вижу образы чисел в твоей голове...*", chat_id, msg.message_id, parse_mode="Markdown")
         bot.send_chat_action(chat_id, 'typing')
-        time.sleep(2.5)
+        time.sleep(1.5)
         
         # Финальный результат
         final_text = (
